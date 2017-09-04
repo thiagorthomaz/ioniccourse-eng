@@ -1,5 +1,6 @@
 {
   "name": "2-sidemenu",
   "app_id": "",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {}
 }

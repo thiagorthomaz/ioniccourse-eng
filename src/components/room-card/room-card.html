@@ -1,0 +1,17 @@
+<ion-card *ngIf="item" (click)="onItemTapped()">
+  <img src="{{item?.image}}"/>
+  <ion-card-content>
+    <ion-card-title>
+      {{item?.title | maiusculo }}
+    </ion-card-title>
+    <p highlight>
+      {{item?.showFormattedAddress()}}
+    </p>
+    <p *ngIf="item.details">
+      {{item.details}}
+    </p>
+    <p>
+      {{item?.price | currency}}
+    </p>
+  </ion-card-content>
+</ion-card>
