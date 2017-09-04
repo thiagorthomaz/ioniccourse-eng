@@ -22,6 +22,18 @@
 
   <form [hidden]="isReactiveForm" id="templateForm" #myForm="ngForm" (ngSubmit)="submit()">
 
+    <p *ngIf="error">
+      {{error}}
+    </p>
+
+
+    <ion-card>
+        <ion-card-content>
+          <button block ion-button (click)="getUserPhoto()">Take a picture</button>
+          <img [src]="base64CameraImage" *ngIf="base64CameraImage">
+        </ion-card-content>
+    </ion-card>
+
     <ion-item>
       <ion-input type="text" #title="ngModel" required minlength="3" maxlength="20" [(ngModel)]="room.title" placeholder="title" name="title"></ion-input>
 
