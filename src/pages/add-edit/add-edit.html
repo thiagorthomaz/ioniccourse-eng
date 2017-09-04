@@ -1,0 +1,130 @@
+<!--
+  Generated template for the AddEditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Adicionar quarto</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label> {{ isReactiveForm ? 'Using reactive form.' : 'Using template form.' }}</ion-label>
+    <ion-toggle [(ngModel)]="isReactiveForm" checked="false"></ion-toggle>
+  </ion-item>
+
+  <form [hidden]="isReactiveForm" id="templateForm" #myForm="ngForm" (ngSubmit)="submit()">
+
+    <ion-item>
+      <ion-input type="text" #title="ngModel" required minlength="3" maxlength="20" [(ngModel)]="room.title" placeholder="title" name="title"></ion-input>
+
+    </ion-item>
+    <ion-row *ngIf="title.invalid && (title.dirty && title.touched)">
+      <ion-col col-12>
+        <p class="danger">Please, verify title's field.</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-item>
+      <ion-input type="text" #address="ngModel" required minlength="3" maxlength="20" [(ngModel)]="room.address" placeholder="address" name="address"></ion-input>
+    </ion-item>
+    <ion-row *ngIf="address.invalid && (address.dirty && address.touched)">
+      <ion-col col-12>
+        <p class="danger">Please, verify address's field.</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-item>
+      <ion-input type="email" email #email="ngModel" required [(ngModel)]="room.email" placeholder="email" name="email"></ion-input>
+    </ion-item>
+    <ion-row *ngIf="email.invalid && (email.dirty && email.touched)">
+      <ion-col col-12>
+        <p class="danger">Please, verify e-mail's field.</p>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-item>
+      <ion-label>Type</ion-label>
+      <ion-select [(ngModel)]="room.type" name="type" required #type="ngModel">
+        <ion-option value="room">Room</ion-option>
+        <ion-option value="house">Appartment or house</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <button ion-button type="submit"
+    [disabled]="!myForm.valid" block>
+      Add room | template
+    </button>
+  </form>
+
+
+  <form
+  [hidden]="!isReactiveForm"
+  id="reactiveForm"
+  [formGroup]="roomForm"
+  (ngSubmit)="submit()">
+
+    <ion-item>
+      <ion-input type="text" minlength="3" maxlength="20" placeholder="title" formControlName="title" ></ion-input>
+    </ion-item>
+    <ion-row
+      *ngIf="roomForm.get('title').invalid
+      && (roomForm.get('title').dirty
+      && roomForm.get('title').touched)">
+      <ion-col col-12>
+        <p class="danger">Please, verify title's field.</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-item>
+      <ion-input type="text" minlength="3" maxlength="20" placeholder="address" formControlName="address" ></ion-input>
+    </ion-item>
+    <ion-row
+      *ngIf="roomForm.get('address').invalid
+      && (roomForm.get('address').dirty
+      && roomForm.get('address').touched)">
+      <ion-col col-12>
+        <p class="danger">Please, verify address's field.</p>
+      </ion-col>
+    </ion-row>
+
+
+
+
+    <ion-item>
+      <ion-input type="email" email formControlName="email" placeholder="email"></ion-input>
+    </ion-item>
+    <ion-row
+      *ngIf="roomForm.get('email').invalid
+      && (roomForm.get('email').dirty
+      && roomForm.get('email').touched)">
+      <ion-col col-12>
+        <p class="danger">Please, verify e-mail's field.</p>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-item>
+      <ion-label>Type</ion-label>
+      <ion-select name="type" required formControlName="type">
+        <ion-option value="room">Room</ion-option>
+        <ion-option value="house">Appartment or house</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <button ion-button type="submit"
+    [disabled]="!roomForm.valid" block>
+      Add room | reactive
+    </button>
+
+  </form>
+
+</ion-content>

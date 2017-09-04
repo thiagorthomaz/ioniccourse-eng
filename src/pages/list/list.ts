@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DetailsPage } from '../details/details';
+import { AddEditPage } from '../add-edit/add-edit';
+
+
 import { Http } from '@angular/http';
 import { AlertController } from 'ionic-angular';
 import { RoomProvider } from '../../providers/room/room';
@@ -54,6 +57,10 @@ export class ListPage {
   }
 
 
+add() {
+  this.navCtrl.push(AddEditPage);
+}
+
 
 
 
@@ -64,7 +71,7 @@ export class ListPage {
         this.list = data.json().map(o => {
 
           this.listOfInterface = <RoomInterface[]> data.json();
-          
+
           if (o.details) {
             return new Event(o.id, o.title, o.address, o.image, o.price, o.details)
           }

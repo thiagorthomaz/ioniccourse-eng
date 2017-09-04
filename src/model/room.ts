@@ -4,14 +4,19 @@ export class Room {
   image:string;
   address:string;
   price:number;
+  email:string;
+  type:string;
   city:string = "Curitiba";
 
-  constructor (id:number, title:string, address:string, image:string,price:number) {
+  constructor();
+  constructor (id?:number, title?:string, address?:string, image?:string,price?:number);
+  constructor (id?:number, title?:string, address?:string, image?:string,price?:number) {
     this.id = id;
     this.title = title;
     this.address = address;
     this.image = image;
     this.price = price;
+
   }
 
   showFormattedAddress() : string {

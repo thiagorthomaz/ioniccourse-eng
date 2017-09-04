@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsPage } from '../pages/details/details';
+import { AddEditPage } from '../pages/add-edit/add-edit';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,13 +15,15 @@ import { RoomProvider } from '../providers/room/room';
 import { PipesModule } from '../pipes/pipes.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { ComponentsModule } from '../components/components.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    DetailsPage
+    DetailsPage,
+    AddEditPage
   ],
   imports: [
     BrowserModule,
@@ -28,14 +31,16 @@ import { ComponentsModule } from '../components/components.module';
     HttpModule,
     PipesModule,
     DirectivesModule,
-    ComponentsModule
+    ComponentsModule,
+    ReactiveFormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
     ListPage,
-    DetailsPage
+    DetailsPage,
+    AddEditPage
   ],
   providers: [
     StatusBar,
