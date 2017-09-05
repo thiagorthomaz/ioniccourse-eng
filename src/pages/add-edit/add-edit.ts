@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 import { Room } from '../../model/room';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+
+import { RoomDatabaseProvider } from '../../providers/room-database/room-database';
+
 
 /**
  * Generated class for the AddEditPage page.
@@ -28,7 +31,9 @@ export class AddEditPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder : FormBuilder,
-    private camera:Camera
+    private camera:Camera,
+    private roomDatabaseProvider:RoomDatabaseProvider,
+    private platform:Platform
   ) {
 
 
@@ -61,6 +66,8 @@ export class AddEditPage {
       this.setValueOfReactiveForm();
     }
 
+    this.add();
+
     console.log(this.room);
 
 
@@ -79,6 +86,20 @@ export class AddEditPage {
 
   }
 
+  add() {
+
+    this.room.image = this.base64CameraImage ? this.base64CameraImage:
+    "http://www.imprintables.com/content/images/thumbs/default-image_450.png";
+
+    if (this.platform.is('cordova')) {
+      this.roomDatabaseProvider.add(this.room).then(data => {
+        console.log("room add " + JSON.stringify(data));
+        this.navCtrl.pop();
+      });
+    }
+
+
+  }
 
   getUserPhoto() {
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { DetailsPage } from '../details/details';
 import { AddEditPage } from '../add-edit/add-edit';
 
@@ -12,6 +12,8 @@ import { ActionSheetController } from 'ionic-angular';
 import { RoomInterface } from '../../model/roomInterface';
 import { Room } from '../../model/room';
 import { Event } from '../../model/event';
+
+import { RoomDatabaseProvider } from '../../providers/room-database/room-database';
 
 
 /**
@@ -47,24 +49,63 @@ export class ListPage {
     public http: Http,
     public alertController: AlertController,
     public roomProvider: RoomProvider,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    private roomDatabaseProvider:RoomDatabaseProvider,
+    private platform:Platform
     ) {
-      this.getData();
+
+
+
   }
+
+  ionViewDidEnter() {
+
+    this.getData();
+
+
+  }
+
+  doLoadData() {
+    this.getData();
+  }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ListPage');
   }
 
 
-add() {
-  this.navCtrl.push(AddEditPage);
-}
-
-
+  add() {
+    this.navCtrl.push(AddEditPage);
+  }
 
 
   getData() {
+
+    if (this.platform.is('cordova')) {
+    this.roomDatabaseProvider.databaseReady.subscribe(rdy => {
+      if (rdy) {
+        this.roomDatabaseProvider.getAll().then(data => {
+          console.log(JSON.stringify(data));
+          this.list = data;
+        });
+      }
+    });
+
+
+    if (this.list.length == 0) {
+      if (this.roomDatabaseProvider.ready) {
+        this.saveLocalData();
+      } else {
+        this.roomDatabaseProvider.databaseReady.subscribe(databaseReady => {
+          if (databaseReady) {
+            this.saveLocalData();
+          }
+        });
+      }
+    }
+
+  } else {
 
     this.roomProvider.getAll().subscribe(
       data => {
@@ -78,11 +119,30 @@ add() {
           return new Room(o.id, o.title, o.address, o.image, o.price)
 
         });
+
       },
       err => {
         this.presentErrorAlert();
       }
     );
+
+  }
+  }
+
+  saveLocalData() {
+    this.roomDatabaseProvider.deleteAll().then(data => {
+      this.list.forEach(item => {
+        if (this.platform.is('cordova')) {
+          this.roomDatabaseProvider.add(item).then(data => {
+            console.log("room add " + JSON.stringify(data));
+
+            this.navCtrl.pop();
+
+          });
+        }
+      });
+
+    });
   }
 
   doRefresh(refresher) {
@@ -137,6 +197,8 @@ add() {
   });
   actionSheet.present();
 }
+
+
 
 onSearch(termo: string) {
   alert(termo);

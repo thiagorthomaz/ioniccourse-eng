@@ -29,7 +29,7 @@
 
     <ion-card>
         <ion-card-content>
-          <button block ion-button (click)="getUserPhoto()">Take a picture</button>
+          <button type="button" block ion-button (click)="getUserPhoto()">Take a picture</button>
           <img [src]="base64CameraImage" *ngIf="base64CameraImage">
         </ion-card-content>
     </ion-card>

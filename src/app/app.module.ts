@@ -18,6 +18,10 @@ import { ComponentsModule } from '../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { Camera } from '@ionic-native/camera';
+import { SQLite } from '@ionic-native/sqlite';
+import { RoomDatabaseProvider } from '../providers/room-database/room-database';
+import { RoomOrmProvider } from '../providers/room-orm/room-orm';
+
 
 @NgModule({
   declarations: [
@@ -49,7 +53,10 @@ import { Camera } from '@ionic-native/camera';
     SplashScreen,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RoomProvider
+    RoomProvider,
+    RoomDatabaseProvider,
+    SQLite,
+    RoomOrmProvider
   ]
 })
 export class AppModule {}
