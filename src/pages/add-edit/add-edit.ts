@@ -88,10 +88,11 @@ export class AddEditPage {
 
   add() {
 
-    this.room.image = this.base64CameraImage ? this.base64CameraImage:
-    "http://www.imprintables.com/content/images/thumbs/default-image_450.png";
-
     if (this.platform.is('cordova')) {
+      console.log("Trying to add.");
+
+      this.room.image = this.base64CameraImage ? this.base64CameraImage:
+      "http://www.imprintables.com/content/images/thumbs/default-image_450.png";
       this.roomDatabaseProvider.add(this.room).then(data => {
         console.log("room add " + JSON.stringify(data));
         this.navCtrl.pop();

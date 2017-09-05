@@ -88,22 +88,22 @@ export class ListPage {
         this.roomDatabaseProvider.getAll().then(data => {
           console.log(JSON.stringify(data));
           this.list = data;
+
+          if (this.list.length == 0) {
+            if (this.roomDatabaseProvider.ready) {
+              this.saveLocalData();
+            } else {
+              this.roomDatabaseProvider.databaseReady.subscribe(databaseReady => {
+                if (databaseReady) {
+                  this.saveLocalData();
+                }
+              });
+            }
+          }
+
         });
       }
     });
-
-
-    if (this.list.length == 0) {
-      if (this.roomDatabaseProvider.ready) {
-        this.saveLocalData();
-      } else {
-        this.roomDatabaseProvider.databaseReady.subscribe(databaseReady => {
-          if (databaseReady) {
-            this.saveLocalData();
-          }
-        });
-      }
-    }
 
   } else {
 
