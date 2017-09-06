@@ -38,7 +38,7 @@ export class ListPage {
   itemTapped : (item :any) => void = (item) => {
 
     this.navCtrl.push(DetailsPage, {
-      item: item.id
+      room_id: item.id
     });
 
   }
@@ -59,13 +59,6 @@ export class ListPage {
   }
 
   ionViewDidEnter() {
-
-    this.getData();
-
-
-  }
-
-  doLoadData() {
     this.getData();
   }
 
@@ -82,31 +75,6 @@ export class ListPage {
 
   getData() {
 
-    if (this.platform.is('cordova')) {
-    this.roomDatabaseProvider.databaseReady.subscribe(rdy => {
-      if (rdy) {
-        this.roomDatabaseProvider.getAll().then(data => {
-          console.log(JSON.stringify(data));
-          this.list = data;
-
-          if (this.list.length == 0) {
-            if (this.roomDatabaseProvider.ready) {
-              this.saveLocalData();
-            } else {
-              this.roomDatabaseProvider.databaseReady.subscribe(databaseReady => {
-                if (databaseReady) {
-                  this.saveLocalData();
-                }
-              });
-            }
-          }
-
-        });
-      }
-    });
-
-  } else {
-
     this.roomProvider.getAll().subscribe(
       data => {
         this.list = data.json().map(o => {
@@ -119,6 +87,8 @@ export class ListPage {
           return new Room(o.id, o.title, o.address, o.image, o.price)
 
         });
+        
+        this.roomProvider.removeLoading();
 
       },
       err => {
@@ -126,7 +96,6 @@ export class ListPage {
       }
     );
 
-  }
   }
 
   saveLocalData() {

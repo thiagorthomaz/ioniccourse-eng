@@ -26,13 +26,7 @@ export class RoomProvider {
   getAll() {
     this.loading = this.loadingCtrl.create({content: "Carregando..."});
     this.loading.present();
-    var request = this.http.get('http://www.mocky.io/v2/59aad7be270000400def71fd');
-
-    request.subscribe(
-      data => { this.removeLoading(); },
-      err => { this.removeLoading(); }
-    );
-
+    var request = this.http.get('http://localhost/renton/?a=all');
     return request;
   }
 
@@ -40,12 +34,7 @@ export class RoomProvider {
     this.loading = this.loadingCtrl.create({content: "Carregando..."});
     this.loading.present();
 
-    var request = this.http.get('http://www.mocky.io/v2/59a752951000001604837302');
-
-    request.subscribe(
-      data => { this.removeLoading(); },
-      err => { this.removeLoading(); }
-    );
+    var request = this.http.get('http://localhost/renton/?id='+id);
 
     return request;
 

@@ -17,15 +17,17 @@ export class RoomCardComponent {
 
   text: string;
   @Input() item: Room;
+  /**
+   * Equivalent to & in Angular 1.X
+   * 
+   */
   @Input() onItemTapped : (item : any) => void = (item) => {
-
   }
 
   //@Input() itemTapped: any;
 
   constructor() {
     console.log('Hello RoomCardComponent Component');
-    this.text = 'Hello World';
   }
 
 }

@@ -33,20 +33,28 @@ export class DetailsPage {
 
   getData() {
 
-    var id = this.navParams.get("id");
+    var room_id = this.navParams.get("room_id");
+    
+    if (!room_id) {
+      this.presentErrorAlert();
+    } else {
+      this.roomProvider.getById(room_id).subscribe(
+        data => {
+          var json = data.json();
+          
+          if (json.details) {
+            return new Event(json.id, json.title, json.address, json.image, json.price, json.details);
+          }
+          this.item = new Room(json.id, json.title, json.address, json.image, json.price);
+          this.roomProvider.removeLoading();
 
-    this.roomProvider.getById(id).subscribe(
-      data => {
-        var json = data.json();
-        if (json.details) {
-          return new Event(json.id, json.title, json.address, json.image, json.price, json.details);
+        },
+        err => {
+          this.presentErrorAlert();
         }
-        this.item = new Room(json.id, json.title, json.address, json.image, json.price);
-      },
-      err => {
-        this.presentErrorAlert();
-      }
-    );
+      );  
+    }
+    
   }
 
   doRefresh(refresher) {

@@ -18,7 +18,6 @@ export class Room {
     this.address = address;
     this.image = image;
     this.price = price;
-
   }
 
   showFormattedAddress() : string {
